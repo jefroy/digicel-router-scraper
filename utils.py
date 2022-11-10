@@ -37,3 +37,17 @@ def countdown(interval):
         time.sleep(1)
 
     sys.stdout.write("\rComplete!            \n")
+
+
+# whatsapp stuff from dookie
+import pywhatkit
+
+
+def send_whatsapp_msg(msg):
+
+    groupID = "GiEUSqYXTwp4mLtfcKpBm3"  # COTR Group ID
+    # message = "Dear Ajay, I write this to you from the script. PEEPEE POO POO"  # use this to pass yuh info
+    wait = 20
+    close = 10
+
+    pywhatkit.sendwhatmsg_to_group_instantly(groupID, msg, wait, True, close)

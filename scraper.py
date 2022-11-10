@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+import lxml
 
 from utils import *
 
@@ -25,22 +26,22 @@ while True:
     driver.get(url)
 
     # find username/email field and send the username itself to the input field
-    driver.find_element_by_id("txt_Username").send_keys(username)
+    driver.find_element("id", "txt_Username").send_keys(username)
     # find password input field and insert password as well
-    driver.find_element_by_id("txt_Password").send_keys(password)
+    driver.find_element("id", "txt_Password").send_keys(password)
     # click login button
-    driver.find_element_by_name("Submit").click()
-    driver.find_element_by_name("mainli_pcp").click()
+    driver.find_element("name", "Submit").click()
+    driver.find_element("name", "mainli_pcp").click()
 
     driver.implicitly_wait(10)
 
-    iframe = driver.find_element_by_id("frameContent")
+    iframe = driver.find_element("id", "frameContent")
     driver.switch_to.frame(iframe)
 
     try:
         # https://stackoverflow.com/questions/38363643/python-selenium-get-inside-a-document
 
-        driver.find_element_by_id("headPcpConfigList_0_0").click()  # anti-afk
+        driver.find_element("id", "headPcpConfigList_0_0").click()  # anti-afk
         page_source = driver.page_source  # on the pcp forward rules page
 
         soup = BeautifulSoup(page_source, 'lxml')
