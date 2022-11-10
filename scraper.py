@@ -14,31 +14,27 @@ from utils import *
 username = password = "Digicel"
 url = "http://192.168.100.1/"
 tableId = "PcpConfigList_tbl"
-timeout = 7
-currSettings = nextSettings = None
+# interval = 15*60  # run entire process every 15 mins :)
+interval = 10
 internalPortToCheck = '3389'
-
-driver = webdriver.Chrome("chromedriver")
-driver.get(url)
-
-# find username/email field and send the username itself to the input field
-driver.find_element_by_id("txt_Username").send_keys(username)
-# find password input field and insert password as well
-driver.find_element_by_id("txt_Password").send_keys(password)
-# click login button
-driver.find_element_by_name("Submit").click()
-driver.find_element_by_name("mainli_pcp").click()
-
-driver.implicitly_wait(10)
-time.sleep(10)
-
-iframe = driver.find_element_by_id("frameContent")
-driver.switch_to.frame(iframe)
 
 pcpConfig = None
 while True:
+    driver = webdriver.Chrome("chromedriver")
+    driver.get(url)
+
+    # find username/email field and send the username itself to the input field
+    driver.find_element_by_id("txt_Username").send_keys(username)
+    # find password input field and insert password as well
+    driver.find_element_by_id("txt_Password").send_keys(password)
+    # click login button
+    driver.find_element_by_name("Submit").click()
+    driver.find_element_by_name("mainli_pcp").click()
+
     driver.implicitly_wait(10)
-    time.sleep(10)
+
+    iframe = driver.find_element_by_id("frameContent")
+    driver.switch_to.frame(iframe)
 
     try:
         # https://stackoverflow.com/questions/38363643/python-selenium-get-inside-a-document
@@ -58,6 +54,7 @@ while True:
     except Exception as e:
         print("error occurred trying to soup")
         logging.critical(e, exc_info=True)
-        driver.close()
-        quit(1)
-
+        # driver.close()
+        # quit(1)
+    driver.close()
+    countdown(interval)

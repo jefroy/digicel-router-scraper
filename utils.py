@@ -1,3 +1,7 @@
+import time
+import sys
+
+
 def prune_row(row, internalPortToCheck='25565'):
     """
     get the next pcp mapping for the give port and return the
@@ -23,3 +27,13 @@ def prune_row(row, internalPortToCheck='25565'):
 
 def msg_ppl(pcpConfig):
     print("New config found!\n", pcpConfig)
+
+
+def countdown(interval):
+    for remaining in range(interval, 0, -1):
+        sys.stdout.write("\r")
+        sys.stdout.write("{:2d} seconds remaining.".format(remaining))
+        sys.stdout.flush()
+        time.sleep(1)
+
+    sys.stdout.write("\rComplete!            \n")
