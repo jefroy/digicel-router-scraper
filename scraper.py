@@ -11,11 +11,12 @@ import time
 
 from utils import *
 
-username = password = "Digicel"
+username = "Digicel"
+password = "Digicel"
 url = "http://192.168.100.1/"
 tableId = "PcpConfigList_tbl"
-# interval = 15*60  # run entire process every 15 mins :)
-interval = 10
+interval = 15*60  # run entire process every 15 mins :)
+# interval = 10
 internalPortToCheck = '3389'
 
 pcpConfig = None
