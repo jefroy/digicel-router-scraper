@@ -1,14 +1,8 @@
 import logging
 
-import requests
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-import pandas as pd
-import time
-import lxml
+
 
 from utils import *
 
@@ -18,7 +12,7 @@ url = "http://192.168.100.1/"
 tableId = "PcpConfigList_tbl"
 interval = 15*60  # run entire process every 15 mins :)
 # interval = 10
-internalPortToCheck = '3389'
+internalPortToCheck = '25565'
 
 pcpConfig = None
 while True:
@@ -51,7 +45,7 @@ while True:
             newPcpConfig = prune_row(row, internalPortToCheck)
             if newPcpConfig != pcpConfig and newPcpConfig is not None:
                 pcpConfig = newPcpConfig
-                msg_ppl(pcpConfig)
+                printToJsonFile(pcpConfig)
 
     except Exception as e:
         print("error occurred trying to soup")

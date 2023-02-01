@@ -1,5 +1,7 @@
 import time
 import sys
+import json
+import os.path
 
 
 def prune_row(row, internalPortToCheck='25565'):
@@ -20,13 +22,10 @@ def prune_row(row, internalPortToCheck='25565'):
             val = {
                 "externalIP": externalIP,
                 "externalPort": externalPort,
+                "fullIp": f'{externalIP}:{externalPort}',
                 "resultCode": resultCode
             }
     return val
-
-
-def msg_ppl(pcpConfig):
-    print("New config found!\n", pcpConfig)
 
 
 def countdown(interval):
@@ -39,15 +38,30 @@ def countdown(interval):
     sys.stdout.write("\rComplete!            \n")
 
 
+def printToJsonFile(dict):
+    # Serializing json
+    json_object = json.dumps(dict, indent=4)
+
+    # Writing to sample.json
+    with open("C:/Users/jj_er/Documents/servers/minecraft/mc-server.json", "w") as outfile:
+        outfile.write(json_object)
+
+    outfile.close()
+    return
+
 # whatsapp stuff from dookie
-import pywhatkit
+# def msg_ppl(pcpConfig):
+#     print("New config found!\n", pcpConfig)
 
 
-def send_whatsapp_msg(msg):
-
-    groupID = "GiEUSqYXTwp4mLtfcKpBm3"  # COTR Group ID
-    # message = "Dear Ajay, I write this to you from the script. PEEPEE POO POO"  # use this to pass yuh info
-    wait = 20
-    close = 10
-
-    pywhatkit.sendwhatmsg_to_group_instantly(groupID, msg, wait, True, close)
+# import pywhatkit
+#
+#
+# def send_whatsapp_msg(msg):
+#
+#     groupID = "GiEUSqYXTwp4mLtfcKpBm3"  # COTR Group ID
+#     # message = "Dear Ajay, I write this to you from the script. PEEPEE POO POO"  # use this to pass yuh info
+#     wait = 20
+#     close = 10
+#
+#     pywhatkit.sendwhatmsg_to_group_instantly(groupID, msg, wait, True, close)
