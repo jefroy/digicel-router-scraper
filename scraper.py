@@ -19,9 +19,11 @@ interval = 15 * 60  # run entire process every 15 mins :)
 # Load .env file
 load_dotenv()
 
-# Retrieve the string and convert it into a dictionary
 port_map_string = os.getenv('APPLICATION_PORT_MAP')
 application_port_map = json.loads(port_map_string)
+
+# Use the dictionary as needed
+print(application_port_map)  # Output: {'minecraft': '25565', 'rdp': '3389'}
 
 
 pcpConfig = None
