@@ -25,7 +25,14 @@ json_dump_file_path = os.getenv('JSON_DUMP_FILE_PATH')
 
 pcpConfig = None
 while True:
-    driver = webdriver.Chrome("chromedriver")
+    dirver = None
+    try:
+        driver = webdriver.Chrome("chromedriver")
+    except Exception as e:
+        print("error occurred trying to init webdriver")
+        logging.critical(e, exc_info=True)
+        break
+
     driver.get(url)
 
     # find username/email field and send the username itself to the input field
