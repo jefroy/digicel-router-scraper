@@ -38,15 +38,17 @@ def countdown(interval):
     sys.stdout.write("\rComplete!            \n")
 
 
-def printToJsonFile(dict):
+def printToJsonFile(data, filePath):
     # Serializing json
-    json_object = json.dumps(dict, indent=4)
+    # json_object = json.dumps(dict, indent=4)
 
     # Writing to sample.json
-    with open("C:/Users/jj_er/Documents/servers/minecraft/mc-server.json", "w") as outfile:
-        outfile.write(json_object)
+    with open(filePath, "w") as file:
+        # outfile.write(json_object)
+        # Write the array of JSON objects to the file
+        json.dump(data, file, indent=4)
 
-    outfile.close()
+    file.close()
     return
 
 # whatsapp stuff from dookie

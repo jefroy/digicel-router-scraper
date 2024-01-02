@@ -3,20 +3,36 @@ import logging
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
-
 from utils import *
+
+from dotenv import load_dotenv
+import os
+import json
 
 username = "Digicel"
 password = "Digicel"
 url = "http://192.168.100.1/"
 tableId = "PcpConfigList_tbl"
-interval = 15*60  # run entire process every 15 mins :)
+interval = 15 * 60  # run entire process every 15 mins :)
 # interval = 10
-internalPortToCheck = '25565'
+
+# Load .env file
+load_dotenv()
+
+port_map_string = os.getenv('APPLICATION_PORT_MAP')
+application_port_map = json.loads(port_map_string)
+json_dump_file_path = os.getenv('JSON_DUMP_FILE_PATH')
 
 pcpConfig = None
 while True:
-    driver = webdriver.Chrome("chromedriver")
+    dirver = None
+    try:
+        driver = webdriver.Chrome("chromedriver")
+    except Exception as e:
+        print("error occurred trying to init webdriver")
+        logging.critical(e, exc_info=True)
+        break
+
     driver.get(url)
 
     # find username/email field and send the username itself to the input field
@@ -42,10 +58,12 @@ while True:
         table = soup.find("table", {"id": "PcpConfigList_tbl"})
 
         for row in table.findAll("tr"):
-            newPcpConfig = prune_row(row, internalPortToCheck)
+            newPcpConfig = {}
+            for app, port in application_port_map.items():
+                newPcpConfig[app] = prune_row(row, port)
             if newPcpConfig != pcpConfig and newPcpConfig is not None:
                 pcpConfig = newPcpConfig
-                printToJsonFile(pcpConfig)
+                printToJsonFile(pcpConfig, json_dump_file_path)
 
     except Exception as e:
         print("error occurred trying to soup")
