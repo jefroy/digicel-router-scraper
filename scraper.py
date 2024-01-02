@@ -3,16 +3,26 @@ import logging
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
-
 from utils import *
+
+from dotenv import load_dotenv
+import os
+import json
 
 username = "Digicel"
 password = "Digicel"
 url = "http://192.168.100.1/"
 tableId = "PcpConfigList_tbl"
-interval = 15*60  # run entire process every 15 mins :)
+interval = 15 * 60  # run entire process every 15 mins :)
 # interval = 10
-internalPortToCheck = '25565'
+
+# Load .env file
+load_dotenv()
+
+# Retrieve the string and convert it into a dictionary
+port_map_string = os.getenv('APPLICATION_PORT_MAP')
+application_port_map = json.loads(port_map_string)
+
 
 pcpConfig = None
 while True:
