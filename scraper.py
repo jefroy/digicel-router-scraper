@@ -21,10 +21,7 @@ load_dotenv()
 
 port_map_string = os.getenv('APPLICATION_PORT_MAP')
 application_port_map = json.loads(port_map_string)
-
-# Use the dictionary as needed
-print(application_port_map)  # Output: {'minecraft': '25565', 'rdp': '3389'}
-
+json_dump_file_path = os.getenv('JSON_DUMP_FILE_PATH')
 
 pcpConfig = None
 while True:
@@ -54,10 +51,12 @@ while True:
         table = soup.find("table", {"id": "PcpConfigList_tbl"})
 
         for row in table.findAll("tr"):
-            newPcpConfig = prune_row(row, internalPortToCheck)
+            newPcpConfig = {}
+            for app, port in application_port_map.items():
+                newPcpConfig[app] = prune_row(row, port)
             if newPcpConfig != pcpConfig and newPcpConfig is not None:
                 pcpConfig = newPcpConfig
-                printToJsonFile(pcpConfig)
+                printToJsonFile(pcpConfig, json_dump_file_path)
 
     except Exception as e:
         print("error occurred trying to soup")
